@@ -1,12 +1,24 @@
+// import { Ttodo } from "@/redux/features/todoSlice";
+import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
+import { removeTodo } from "@/redux/features/todoSlice";
 
-const TodoCard = () => {
+type Ttask = {
+  id: string;
+  title: string;
+  description: string;
+};
+const TodoCard = ({ id, title, description }: Ttask) => {
+  const dispatch = useAppDispatch();
+  const handleDelete = () => {
+    dispatch(removeTodo(id));
+  };
   return (
     <div className=" p-3 border-b-2 flex justify-between items-center">
       <input type="checkbox" name="" id="" />
-      <p>Todo Title</p>
+      <p>{title}</p>
       <p>Time</p>
-      <p>description</p>
+      <p>{description}</p>
       <div className=" space-x-2">
         <Button className=" bg-[#5C53FE]">
           <svg
@@ -24,7 +36,7 @@ const TodoCard = () => {
             />
           </svg>
         </Button>
-        <Button className=" bg-red-500">
+        <Button onClick={handleDelete} className=" bg-red-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
