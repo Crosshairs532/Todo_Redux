@@ -8,8 +8,9 @@ type Ttask = {
   id: string;
   title: string;
   description: string;
+  priority: string;
 };
-const TodoCard = ({ id, title, description, isCompleted }: Ttask) => {
+const TodoCard = ({ id, title, description, isCompleted, priority }: Ttask) => {
   const dispatch = useAppDispatch();
   const handleDelete = () => {
     dispatch(removeTodo(id));
@@ -20,21 +21,29 @@ const TodoCard = ({ id, title, description, isCompleted }: Ttask) => {
   return (
     <div className=" p-3 border-b-2 flex justify-between items-center">
       <input
+        className=" mr-3"
         onChange={toggle}
         type="checkbox"
         name={`${title}`}
         id={`${title}`}
       />
-      <p>{title}</p>
-      <div>
+      <p className=" flex-1">{title}</p>
+      <div className=" flex-1">
         {!isCompleted ? (
           <p className=" text-red-500">Pending</p>
         ) : (
           <p className=" text-green-500">Done</p>
         )}
       </div>
-      <p>Time</p>
-      <p>{description}</p>
+      <div className=" flex-1 flex items-center">
+        <div
+          className={` size-3 rounded-full ${
+            priority === "High" ? "bg-red-500" : ""
+          }`}
+        ></div>
+        <p>High</p>
+      </div>
+      <p className=" flex-2">{description}</p>
       <div className=" space-x-2">
         <Button className=" bg-[#5C53FE]">
           <svg
