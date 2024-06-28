@@ -2,9 +2,16 @@ import { useAppSelector } from "@/redux/hooks";
 import AddTodoModal from "./AddTodoModal";
 import TodoCard from "./TodoCard";
 import TodoFilter from "./TodoFilter";
+// import { useGetTodoQuery } from "@/redux/Api/api";
 
 const TodoContainer = () => {
+  /*
+   * from local
+   */
   const allTasks = useAppSelector((state) => state.todos.todo);
+
+  // const { data: allTasks } = useGetTodoQuery(undefined);
+
   return (
     <div>
       <div className=" flex justify-between mb-5">
@@ -17,6 +24,7 @@ const TodoContainer = () => {
             {/* <p className=" font-bold">No tasks Found</p> */}
             {allTasks?.map((task, idx) => (
               <TodoCard
+                isCompleted={task.isCompleted}
                 key={idx}
                 id={task.id}
                 title={task.title}
