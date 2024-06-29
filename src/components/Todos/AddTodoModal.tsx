@@ -18,7 +18,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
@@ -30,20 +29,20 @@ const AddTodoModal = () => {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
 
+  //* For server
+  //? [acutalfunctonforPost, object=> { data, is Loading , isError}]
+  const [addTodo, { data, isLoading, isError, isSuccess }] =
+    useAddTodoMutation();
+
   // ! for local state management
   // const dispatch = useAppDispatch();
+  // ! for local state management
+  // dispatch(addTodo({ id: id, title: task, description: description }));
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     const id = Math.random().toString(36).substring(2, 7);
-    // ! for local state management
-    // dispatch(addTodo({ id: id, title: task, description: description }));
-    //* For server
-    //? [acutalfunctonforPost, object=> { data, is Loading , isError}]
-    const [addTodo, { data, isLoading, isError, isSuccess }] =
-      useAddTodoMutation();
     console.log({ data, isLoading, isError, isSuccess });
-    console.log({ task, description });
 
     const taskDetails = {
       id: id,
@@ -52,6 +51,8 @@ const AddTodoModal = () => {
       isCompleted: false,
       priority,
     };
+
+    console.log({ taskDetails });
 
     // * For Server
     addTodo(taskDetails);

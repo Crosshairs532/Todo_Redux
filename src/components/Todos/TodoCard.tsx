@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
 import { removeTodo, toggleState } from "@/redux/features/todoSlice";
 
-type Ttask = {
+export type Ttask = {
   isCompleted?: boolean;
   id: string;
   title: string;
@@ -39,11 +39,15 @@ const TodoCard = ({ id, title, description, isCompleted, priority }: Ttask) => {
         <div
           className={` size-3 rounded-full ${
             priority === "High" ? "bg-red-500" : ""
-          }`}
+          }
+          ${priority === "Medium" ? "bg-yellow-500" : ""}
+          ${priority === "Low" ? "bg-orange-500" : ""}
+
+          `}
         ></div>
-        <p>High</p>
+        <p>{priority}</p>
       </div>
-      <p className=" flex-2">{description}</p>
+      <p className=" flex-1">{description}</p>
       <div className=" space-x-2">
         <Button className=" bg-[#5C53FE]">
           <svg
