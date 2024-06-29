@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
 import { toggleState } from "@/redux/features/todoSlice";
 
-import { useDeleteTodoMutation } from "@/redux/Api/api";
+import { useDeleteTodoMutation, useUpdateTodoMutation } from "@/redux/Api/api";
 
 export type Ttask = {
   id: string;
@@ -18,6 +18,7 @@ const TodoCard = ({ id, title, description, isCompleted, priority }: Ttask) => {
 
   // * server
   const [data, result] = useDeleteTodoMutation();
+  const [updateTodo, { isLoading }] = useUpdateTodoMutation();
 
   const handleDelete = () => {
     // !local  remove  test
@@ -28,7 +29,19 @@ const TodoCard = ({ id, title, description, isCompleted, priority }: Ttask) => {
   };
 
   const toggle = () => {
-    dispatch(toggleState(id));
+    //!local
+    // dispatch(toggleState(id));
+
+    // * server
+    const taskData = {
+      title,
+      description,
+      isCompleted: !isCompleted,
+      priority,
+    };
+    console.log({ taskData, id });
+
+    updateTodo({ taskData, id });
   };
   return (
     <div className=" p-3 border-b-2 flex justify-between items-center">
@@ -41,10 +54,10 @@ const TodoCard = ({ id, title, description, isCompleted, priority }: Ttask) => {
       />
       <p className=" flex-1">{title}</p>
       <div className=" flex-1">
-        {!isCompleted ? (
-          <p className=" text-red-500">Pending</p>
-        ) : (
+        {isCompleted ? (
           <p className=" text-green-500">Done</p>
+        ) : (
+          <p className=" text-red-500">Pending</p>
         )}
       </div>
       <div className=" flex-1 flex items-center">
