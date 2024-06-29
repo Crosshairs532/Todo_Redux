@@ -1,20 +1,32 @@
 // import { Ttodo } from "@/redux/features/todoSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { Button } from "../ui/button";
-import { removeTodo, toggleState } from "@/redux/features/todoSlice";
+import { toggleState } from "@/redux/features/todoSlice";
+
+import { useDeleteTodoMutation } from "@/redux/Api/api";
 
 export type Ttask = {
-  isCompleted?: boolean;
   id: string;
+  isCompleted?: boolean;
   title: string;
   description: string;
   priority: string;
 };
 const TodoCard = ({ id, title, description, isCompleted, priority }: Ttask) => {
+  // !local  remove  test
   const dispatch = useAppDispatch();
+
+  // * server
+  const [data, result] = useDeleteTodoMutation();
+
   const handleDelete = () => {
-    dispatch(removeTodo(id));
+    // !local  remove  test
+    // dispatch(removeTodo(id));
+    //* Server remove
+    data(id);
+    console.log({ data }, { result });
   };
+
   const toggle = () => {
     dispatch(toggleState(id));
   };
